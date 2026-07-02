@@ -1,0 +1,107 @@
+<html>
+
+    <head>
+        <title> PG creator </title>
+
+		<link rel="stylesheet" href="Css.css"></link>
+		<link rel="icon" type="image/x-icon" href="immagini/Jesus.jpg"><link>
+
+		<!-- Libreria Supabase -->
+		<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    </head>
+
+
+    <body style="
+  background-image: url('sfondo\ 8.jpg');
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: rgb(244, 222, 205);
+">
+
+
+    <br>
+    <br>
+
+<div style="text-align: center;">
+
+    <fieldset class="PG" style="display: inline-block; text-align: center;  width: 250px; padding: 20px;">
+
+		<h1 style="text-align:center;"> Accesso </h1>
+
+        <!-- Tolto action="/login": ora l'invio è gestito dal JavaScript qui sotto -->
+        <form id="form-login">
+
+            <div style="display: inline-block; text-align: left; width: 200px;">
+
+		<div style="margin-bottom: 30px; margin-left: 15px;">
+
+		<label for="email">Email:</label><br>
+        	<input type="email" id="email" name="email" required><br>
+
+		</div>
+
+		<div style="margin-bottom: 30px; margin-left: 15px;">
+
+        	<label for="pwd">Password:</label><br>
+        	<input type="password" id="pwd" name="pwd" required>
+
+		</div>
+
+                <p id="messaggio" style="margin: 0 0 10px 15px; font-size: 14px;"></p>
+
+                <br><br>
+
+                <div style="text-align: right">
+                    <input type="submit" value="Invia" class="testbtn" style="margin-right: -30px; margin-top: 10px; margin-bottom: -15px;">
+                </div>
+
+            </div>
+
+        </form>
+
+    </fieldset>
+
+</div>
+
+<script>
+    // --- Collegamento al tuo progetto Supabase (stessi dati della pagina di registrazione) ---
+    const SUPABASE_URL = "https://ntobyzzzsvtsllmlqjw.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50b2J5enp6c3Z0c2xsbWxscWp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5ODgwOTUsImV4cCI6MjA5ODU2NDA5NX0.dJE01kFFSHmCfn0IljTZCq6WLyAbaTuaWHKCgJg7tew";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('form-login');
+    const messaggio = document.getElementById('messaggio');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('pwd').value;
+
+        messaggio.style.color = 'black';
+        messaggio.textContent = 'Accesso in corso...';
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            messaggio.style.color = 'red';
+            messaggio.textContent = 'Errore: ' + error.message;
+        } else {
+            messaggio.style.color = 'green';
+            messaggio.textContent = 'Accesso riuscito! Reindirizzamento...';
+            // Cambia "area-riservata.html" con il nome della tua pagina dopo il login
+            window.location.href = 'area-riservata.html';
+        }
+    });
+</script>
+
+    </body>
+
+</html>
